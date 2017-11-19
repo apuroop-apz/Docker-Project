@@ -65,21 +65,21 @@ Create a text file '**Dockerfile**' with vim.
 
 `vim Dockerfile`
 
-#Give the instructions for creating a LAMP - phpMyadmin - 100MB tpch of test data stack.
+#### Give the instructions for creating a LAMP - phpMyadmin - 100MB tpch of test data stack.
 
-#From the base image ubuntu:16.04. `FROM <image>[:tag]`
+From the base image ubuntu:16.04. `FROM <image>[:tag]`
 
 `FROM ubuntu:16.04`
 
-#Setting the Author’s details here. `MAINTAINER <author’s details>`
+Setting the Author’s details here. `MAINTAINER <author’s details>`
 
 `MAINTAINER Apuroop Naidu <apuroop.naidu@gmail.com>`
 
-#Setting the environment variable. `ENV <key> <value>`
+Setting the environment variable. `ENV <key> <value>`
 
 `ENV DEBIAN_FRONTEND noninteractive`
 
-#Running the command to update and install the applications vim, sed and netcat-openbsd
+Running the command to update and install the applications vim, sed and netcat-openbsd
 ```
 RUN apt-get -y update && apt-get install -y apt-utils \
 		vim \
@@ -87,11 +87,11 @@ RUN apt-get -y update && apt-get install -y apt-utils \
 		netcat-openbsd
 ```
 
-#Running the command to install the Apache2 package
+Running the command to install the Apache2 package
 
 `RUN apt-get -y install apache2`
 
-#Running the command to install the Mysql-server-5.7 package
+Running the command to install the Mysql-server-5.7 package
 
 `RUN apt-get -y install -y mysql-server-5.7`
 
@@ -131,17 +131,17 @@ RUN apt-get install -y \
         php7.0-xsl \
         libapache2-mod-php7.0
 ```
-#Running the commands to install the phpmyadmin application. Also, setting the Boolean value to true for selecting dbconfig to set up the database and choosing apache2 for the server selection.
+Running the commands to install the phpmyadmin application. Also, setting the Boolean value to true for selecting dbconfig to set up the database and choosing apache2 for the server selection.
 ```
 RUN echo 'phpmyadmin phpmyadmin/dbconfig-install boolean true' | debconf-set-selections && \
 	echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections && \
 	apt-get -y install phpmyadmin --no-install-recommends
 ```
-#Copying the ‘**essentials**’ folder to the filesystem of the image.
+Copying the ‘**essentials**’ folder to the filesystem of the image.
 
 `COPY /essentials /essentials`
 
-#Making the necessary directories; Copying files to the appropriate destinations; Giving permissions.
+Making the necessary directories; Copying files to the appropriate destinations; Giving permissions.
 ```
 RUN phpenmod mcrypt && phpenmod mbstring && \
 		mkdir -m777 /etc/tpch/ && \
@@ -158,19 +158,19 @@ RUN phpenmod mcrypt && phpenmod mbstring && \
 		usermod -d /var/lib/mysql/ mysql && \
 		apt-get clean
 ```
-#Copying the ‘**TPC-H_SQL**’ folder to the destination in the filesystem of the image.
+Copying the ‘**TPC-H_SQL**’ folder to the destination in the filesystem of the image.
 
 `COPY TPC-H_SQL /etc/tpch/`
 
-#Creating the volume directories in the image filesystem, can later be used for mounting volumes from the host or other containers.
+Creating the volume directories in the image filesystem, can later be used for mounting volumes from the host or other containers.
 
 `VOLUME ["/var/lib/mysql", "/etc/mysql"]`
 
-#Exposing the network ports 80-tcp and 3306-mysql for communication.
+Exposing the network ports 80-tcp and 3306-mysql for communication.
 
 `EXPOSE 80 3306`
 
-#Running the command in shell. This executes the series of commands in the shell script.
+Running the command in shell. This executes the series of commands in the shell script.
 
 `CMD /usr/local/bin/run.sh`
 
@@ -204,9 +204,9 @@ Create a **tpch_test.sql** file with vim. Add the series of SQL commands to crea
 
 `#!/bin/bash`
 
-#The above line is a must for a bash shell and helps in creating a shell script. Also it should be in the first line in any bash shell file.
+The above line is a must for a bash shell and helps in creating a shell script. Also it should be in the first line in any bash shell file.
 
-#Setting the environments for Mysql application. These can be invoked when running the **docker run** command
+Setting the environments for Mysql application. These can be invoked when running the **docker run** command
 ```
 set -e
 
@@ -216,7 +216,7 @@ DB=${MYSQL_DBNAME:-}
 ROOTPASS=${MYSQL_ROOT_PASSWORD:-}
 ```
 
-#The following commands are used to edit few different files using the application *sed*
+The following commands are used to edit few different files using the application *sed*
 ```
 sed -i 's/AllowOverride\ None/AllowOverride\ All/g' /etc/apache2/apache2.conf
 
@@ -228,20 +228,21 @@ sed -i "77s@.*@\/\/$cfg['Servers\'][\$i]['controluser'] = \$dbuser;@" /etc/phpmy
 sed -i "78s@.*@\/\/$cfg['Servers\'][\$i]['controlpass'] = \$dbpass;@" /etc/phpmyadmin/config.inc.php
 ```
 
-#Run the *make* command in the **/etc/tpch/dbgen/** folder
+Run the *make* command in the **/etc/tpch/dbgen/** folder
 
 `make -C /etc/tpch/dbgen/`
 
-#Navigating to **/etc/tpch/dbgen/** folder and generating the files for population. The flags -v is for Verbose and -s is volume of the data to be populated (0.1 = 100 mb ; 1 = 1 gb)
+Navigating to **/etc/tpch/dbgen/** folder and generating the files for population. The flags -v is for Verbose and -s is volume of the data to be populated (0.1 = 100 mb ; 1 = 1 gb)
 
 `cd /etc/tpch/dbgen/ && ./dbgen -v -s 0.1`
 
-#Starting the mysql server and also running the netcat command in a while loop.
+Starting the mysql server and also running the netcat command in a while loop.
 ```
 /usr/bin/mysqld_safe &
 while ! nc -vz localhost 3306; do sleep 1; done
 ```
-```
+
+
 if [ ! -z $USER ]; then
 	echo "Creating user: \"$USER\""
 		source /essentials/load.sh
