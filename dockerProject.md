@@ -236,13 +236,14 @@ Navigating to **/etc/tpch/dbgen/** folder and generating the files for populatio
 
 `cd /etc/tpch/dbgen/ && ./dbgen -v -s 0.1`
 
-Starting the mysql server and also running the netcat command in a while loop.
+Starting the mysql server and also running the netcat command with -v (Verbose) -z (scan for listening daemons, without sending any data to them)
 ```
 /usr/bin/mysqld_safe &
 while ! nc -vz localhost 3306; do sleep 1; done
 ```
 
-
+This if condition is true when we use `MYSQL_USERNAME` and `MYSQL_PASSWORD` on docker run. It creates a Mysql User and a password, if the password is not specified then it will be blank.
+```
 if [ ! -z $USER ]; then
 	echo "Creating user: \"$USER\""
 		source /essentials/load.sh
@@ -256,7 +257,9 @@ if [ ! -z $USER ]; then
 		source /essentials/load.sh
 		stop_spinner $?
 fi
-
+```
+This if condition is true when we use `MYSQL_DBNAME` on docker run. It creates a database with specified database name.
+```
 if [ ! -z $DB ]; then
 	echo "Creating database: \"$DB\""
 		source /essentials/load.sh
@@ -268,7 +271,9 @@ if [ ! -z $DB ]; then
 		source /essentials/load.sh
                 stop_spinner $?
 fi
-
+```
+The following commands are for creating a database named **tpch** and the next line is for executing a .sql file which is packed with SQL commands. This **tpch_test.sql** creates tables in the tpch database, populate tables with dummy data, alter the schema dependencies.
+```
 	echo "Creating the TPC-H Database ..."
 		source /essentials/load.sh
 		start_spinner
@@ -281,7 +286,9 @@ fi
 		stop_spinner $?
 	
 		/usr/bin/mysql -u root -e "optimize table tpch.LINEITEM"
-
+```
+The following commands are for creating tables in phpmyadmin database. This is done to avoid warnings in the phpmyadmin web interface.
+```
 	echo "Creating tables for phpmyadmin: ..."
 	        source /essentials/load.sh
 	        start_spinner
@@ -292,10 +299,14 @@ fi
 
 	        source /essentials/load.sh
 	        stop_spinner $?
-
+```
+Shutting down the Mysql service and repeating the netcat command with -v (Verbose) -z (scan for listening daemons, without sending any data to them)
+```
 mysqladmin -uroot shutdown
 while  nc -vz localhost 3306; do sleep 1; done
-
+```
+This is condition is true when we use `MYSQL_ROOT_PASSWORD` on docker run. Since the root user is already created while installation, the command below will just grant all privileges identified by the root password which is specified.
+```
 if [ ! -z $ROOTPASS ]; then
 service mysql start
 	echo "Creating password for root: ..."
@@ -309,7 +320,9 @@ service mysql start
 	        stop_spinner $?
 service mysql stop
 fi
-
+```
+The following commands are for giving the logs at the end of the container-starting process. If a `MYSQL_USER` is used at docker run then the Username & Password will be shown. It's the same with the rest.
+```
 if [ ! -z $USER ]; then
 	echo "========================================================================"
 	echo "MySQL User: \"$USER\""
@@ -328,12 +341,13 @@ if [ ! -z $DB ]; then
 	echo "MySQL Database: \"$DB\""
 	echo "========================================================================"
 fi
-
-cd /
-
-#Starting Apache & mysql:
-service apache2 start && service mysql start && bash
 ```
+`cd /`
+
+Starting the apache2 and mysql services. The bash command will help the container to stay up when it is started in -d (detached mode).
+
+`service apache2 start && service mysql start && bash`
+
 ## Creating a Docker Repository
 - Go to https://hub.docker.com/
 - Sign in
