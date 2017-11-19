@@ -16,7 +16,7 @@ The following image shows that there are three containers running on a Linux mac
 
 ![Docker](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/dock_1.png)
 
-## Differences between a Virtual Machine and Docker
+## Differences between Virtual Machines and Containers
 
 Virtual Machines | Containers
 ---------------- | -------------
@@ -49,7 +49,7 @@ CMD | Runs any command or application, much like RUN. Difference being that the 
 ENTRYPOINT | Helps in running an application during the complete life cycle of the container, which would have spun out of the image. When the entry point application is terminated, the container is also terminated and vice versa.
 ONBUILD | Registers a build instruction to an image and this is triggered when another image is built by using this image as its base image.
 
-## Creating a Dockerfile
+## Create a Dockerfile
 
 In linux, Open the terminal. Gain the root privileges.
 
@@ -71,15 +71,15 @@ From the base image ubuntu:16.04. `FROM <image>[:tag]`
 
 `FROM ubuntu:16.04`
 
-Setting the Author’s details here. `MAINTAINER <author’s details>`
+Set the Author’s details here. `MAINTAINER <author’s details>`
 
 `MAINTAINER Apuroop Naidu <apuroop.naidu@gmail.com>`
 
-Setting the environment variable. `ENV <key> <value>`
+Set the environment variable. `ENV <key> <value>`
 
 `ENV DEBIAN_FRONTEND noninteractive`
 
-Running the command to update and install the applications vim, sed and netcat-openbsd
+Run the command to update and install the applications vim, sed and netcat-openbsd.
 ```
 RUN apt-get -y update && apt-get install -y apt-utils \
 		vim \
@@ -87,15 +87,15 @@ RUN apt-get -y update && apt-get install -y apt-utils \
 		netcat-openbsd
 ```
 
-Running the command to install the Apache2 package
+Run the command to install the Apache2 package.
 
 `RUN apt-get -y install apache2`
 
-Running the command to install the Mysql-server-5.7 package
+Run the command to install the Mysql-server-5.7 package.
 
 `RUN apt-get -y install -y mysql-server-5.7`
 
-Running the command to install PHP-7.0 and other related dependencies
+Run the command to install PHP-7.0 and other related dependencies.
 ```
 RUN apt-get install -y \
         php7.0 \
@@ -131,17 +131,17 @@ RUN apt-get install -y \
         php7.0-xsl \
         libapache2-mod-php7.0
 ```
-Running the commands to install the phpmyadmin application. Also, setting the Boolean value to true for selecting dbconfig to set up the database and choosing apache2 for the server selection.
+Run the commands to install the phpmyadmin application. Also, set the Boolean value to true for selecting dbconfig to set up the database and choose apache2 for the server selection.
 ```
 RUN echo 'phpmyadmin phpmyadmin/dbconfig-install boolean true' | debconf-set-selections && \
 	echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections && \
 	apt-get -y install phpmyadmin --no-install-recommends
 ```
-Copying the ‘**essentials**’ folder to the filesystem of the image.
+Copy the ‘**essentials**’ folder to the filesystem of the image.
 
 `COPY /essentials /essentials`
 
-Making the necessary directories; Copying files to the appropriate destinations; Giving permissions.
+Create the necessary directories; Copy files to the appropriate destinations; Give permissions.
 ```
 RUN phpenmod mcrypt && phpenmod mbstring && \
 		mkdir -m777 /etc/tpch/ && \
@@ -158,29 +158,26 @@ RUN phpenmod mcrypt && phpenmod mbstring && \
 		usermod -d /var/lib/mysql/ mysql && \
 		apt-get clean
 ```
-Copying the ‘**TPC-H_SQL**’ folder to the destination in the filesystem of the image.
+Copy the ‘**TPC-H_SQL**’ folder to the destination in the filesystem of the image.
 
 `COPY TPC-H_SQL /etc/tpch/`
 
-Creating the volume directories in the image filesystem, can later be used for mounting volumes from the host or other containers.
+Create the volume directories in the image filesystem, can later be used for mounting volumes from the host or other containers.
 
 `VOLUME ["/var/lib/mysql", "/etc/mysql"]`
 
-Exposing the network ports 80-tcp and 3306-mysql for communication.
+Expose the network ports 80-tcp and 3306-mysql for communication.
 
 `EXPOSE 80 3306`
 
-Running the command in shell. This executes the series of commands in the shell script.
+Run the command in shell. This executes the series of commands in the shell script **run.sh**.
 
 `CMD /usr/local/bin/run.sh`
 
 Save the file '**Dockerfile**'. In vim, Press Esc, type *:wq!* and hit Enter.
 
-## Build the docker image with the tag *lamp_pma_tpch*
-
-`docker build -t lamp_pma_tpch .`
-
-## Creating a folder with important shell and configuration files
+## Create a folder 'essentials'
+The '**essentials**' folder consists of important shell and configuration files.
 
 Create a folder '**essentials**' inside the '**DockerProject**' folder.
 
@@ -190,15 +187,16 @@ Navigate to '**essentials**' folder
 
 `cd essentials`
 
-Create a **run.sh** file with vim, `vim run.sh`. This shell script executes all the shell commands before starting a container.
+Create a **run.sh** file with vim, `vim run.sh`
 
 ### About run.sh
+This shell script executes all the shell commands before starting a container.
 
 `#!/bin/bash`
 
 The above line is a must for a bash shell and helps in creating a shell script. Also it should be in the first line in any bash shell file.
 
-Setting the environments for Mysql application. These can be invoked when running the **docker run** command
+Set the environments for Mysql application. These can be invoked when running the **docker run** command
 ```
 set -e
 
@@ -224,17 +222,17 @@ Run the *make* command in the **/etc/tpch/dbgen/** folder
 
 `make -C /etc/tpch/dbgen/`
 
-Navigating to **/etc/tpch/dbgen/** folder and generating the files for population. The flags -v is for Verbose and -s is volume of the data to be populated (0.1 = 100 mb ; 1 = 1 gb)
+Navigate to **/etc/tpch/dbgen/** folder and generate the files for population. The flags -v is for Verbose and -s is volume of the data to be populated (0.1 = 100 mb ; 1 = 1 gb)
 
 `cd /etc/tpch/dbgen/ && ./dbgen -v -s 0.1`
 
-Starting the mysql server and also running the netcat command with -v (Verbose) -z (scan for listening daemons, without sending any data to them)
+Start the mysql server and also run the netcat command with -v (Verbose) -z (scan for listening daemons, without sending any data to them)
 ```
 /usr/bin/mysqld_safe &
 while ! nc -vz localhost 3306; do sleep 1; done
 ```
 
-This if condition is true when we use `MYSQL_USERNAME` and `MYSQL_PASSWORD` on docker run. It creates a Mysql User and a password, if the password is not specified then it will be blank.
+This if condition is true when we use `MYSQL_USERNAME` and `MYSQL_PASSWORD` at docker run. It creates a Mysql User and a password, if the password is not specified then it will be blank.
 ```
 if [ ! -z $USER ]; then
 	echo "Creating user: \"$USER\""
@@ -250,7 +248,7 @@ if [ ! -z $USER ]; then
 		stop_spinner $?
 fi
 ```
-This if condition is true when we use `MYSQL_DBNAME` on docker run. It creates a database with specified database name.
+This if condition is true when we use `MYSQL_DBNAME` at docker run. It creates a database with specified database name.
 ```
 if [ ! -z $DB ]; then
 	echo "Creating database: \"$DB\""
@@ -292,7 +290,7 @@ The following commands are for creating tables in phpmyadmin database. This is d
 	        source /essentials/load.sh
 	        stop_spinner $?
 ```
-Shutting down the Mysql service and repeating the netcat command with -v (Verbose) -z (scan for listening daemons, without sending any data to them)
+Shut down the Mysql service and repeat the netcat command with -v (Verbose) -z (scan for listening daemons, without sending any data to them)
 ```
 mysqladmin -uroot shutdown
 while  nc -vz localhost 3306; do sleep 1; done
@@ -313,7 +311,7 @@ service mysql start
 service mysql stop
 fi
 ```
-The following commands are for giving the logs at the end of the container-starting process. If a `MYSQL_USER` is used at docker run then the Username & Password will be shown. It's the same with the rest.
+The following commands are for giving the logs at the end of the 'container-starting' process. If a `MYSQL_USER` is used at docker run then the Username & Password will be shown. It's the same with the rest.
 ```
 if [ ! -z $USER ]; then
 	echo "========================================================================"
@@ -336,7 +334,7 @@ fi
 ```
 `cd /`
 
-Starting the apache2 and mysql services. The bash command will help the container to stay up when it is started in -d (detached mode).
+Start the apache2 and mysql services. The bash command will help the container to stay up when it is started in -d (detached mode).
 
 `service apache2 start && service mysql start && bash`
 
@@ -420,7 +418,7 @@ function stop_spinner {
 }
 ```
 
-Create a **index.php** file with vim, `vim index.php`
+Create an **index.php** file with vim, `vim index.php`
 ### About index.php
 The code in index.php is for testing the php package once the container is started. We can check with, *localhost/index.php*
 ```
@@ -609,7 +607,15 @@ ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references
         PARTSUPP(PS_PARTKEY, PS_SUPPKEY);
 ```
 
-## Creating a Docker Repository
+## Build the docker image
+Build the docker image with the tag or name **lamp_pma_tpch**. This command should be run by staying in the folder where the Dockerfile is at. In this case, `cd /DockerProject` and now build,
+
+`docker build -t lamp_pma_tpch .`
+
+## Run the docker image
+## Test the docker image
+
+## Create a Docker Repository
 - Go to https://hub.docker.com/
 - Sign in
 - If your Github account is not linked with Docker hub then go to **Settings**
@@ -621,7 +627,7 @@ ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references
 - Choose your repository from Github. You must create a repository if you don't have one already.
 - The name of the repository can be edited and click **Create**
 
-## Pushing the image to Docker Registry
+## Push the docker image to Docker Repository
 In the terminal, we have to change the docker image's name. This has to match the Docker Repository that we created earlier. It should be `username/imagename` 
 
 `docker tag lamp_pma_tpch apuroopapz/lamp_pma_tpch`
@@ -631,3 +637,5 @@ In the terminal, we have to change the docker image's name. This has to match th
 Type in the username and password for the Docker hub. A push cannot happen without logging in.
 
 `docker push apuroopapz/lamp_pma_tpch`
+
+## Download the docker image
