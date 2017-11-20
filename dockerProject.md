@@ -13,13 +13,17 @@ Table of contents
 		- [About index.php](#about-indexphp)
 		- [About my.cnf](#about-mycnf)
 		- [About tpch_test.sql](#about-tpch_testsql)
+	- [Create a folder 'TPC-H_SQL'](#create-a-folder-tpc-h_sql)
 	- [Build the docker image](#build-the-docker-image)
 - [Run the docker image](#run-the-docker-image)
 - [Test the docker image](#test-the-docker-image)
 - [Create a Docker Repository](#create-a-docker-repository)
 - [Push the docker image to Docker Repository](#push-the-docker-image-to-docker-repository)
 - [Download the docker image](#download-the-docker-image)
-
+- [Useful docker commands](#useful-docker-commands)
+- [Tips](#tips)
+- [Problems](#problems)
+- [Bibliography](#bibliography)
 ## Introduction to Docker
 **Docker** is a software tool to run applications in isolated environments with the help of containers. It is an open source containerization engine, which automates the packaging, shipping and deployment of any software applications that are presented as lightweight, portable and self-sufficient containers, that will run virtually anywhere.
 
@@ -634,6 +638,7 @@ ALTER TABLE LINEITEM
 ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references 
         PARTSUPP(PS_PARTKEY, PS_SUPPKEY);
 ```
+## Create a folder 'TPC-H_SQL'
 
 ## Build the docker image
 Build the docker image with the tag or name **lamp_pma_tpch**. This command should be run by staying in the folder where the Dockerfile is at. In this case, `cd /DockerProject` and now build,
@@ -716,3 +721,8 @@ Type in the username and password for the Docker hub. A push cannot happen witho
 In a different OS,
 
 `docker pull apuroopapz/lamp_pma_tpch`
+
+## Useful docker commands
+## Tips
+## Problems
+## Bibliography
