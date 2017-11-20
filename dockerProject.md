@@ -71,6 +71,9 @@ ENTRYPOINT | Helps in running an application during the complete life cycle of t
 ONBUILD | Registers a build instruction to an image and this is triggered when another image is built by using this image as its base image.
 
 ## Create a docker image 'lamp_pma_tpch'
+There are three main steps to create a docker image '**lamp_pma_tpch**'.
+
+Create a Dockerfile > Create a folder 'essentials' > Build the docker image
 ### Create a Dockerfile
 
 In linux, Open the terminal. Gain the root privileges.
