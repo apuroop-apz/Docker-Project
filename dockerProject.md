@@ -1,4 +1,24 @@
 # Project on Docker
+Table of contents
+=================
+
+- [Introduction to Docker](#introduction-to-docker)
+- [Differences between Virtual Machines and Containers](#differences-between-virtual-machines-and-containers)
+- [What is a Dockerfile?](#what-is-a-dockerfile)
+- [Create a Dockerfile](#create-a-dockerfile)
+- [Create a folder 'essentials'](#create-a-folder-essentials)
+	- [About run.sh](#about-runsh)
+	- [About load.sh](#about-loadsh)
+	- [About index.php](#about-indexphp)
+	- [About my.cnf](#about-mycnf)
+	- [About tpch_test.sql](#about-tpch_testsql)
+- [Build the docker image](#build-the-docker-image)
+- [Run the docker image](#run-the-docker-image)
+- [Test the docker image](#test-the-docker-image)
+- [Create a Docker Repository](#create-a-docker-repository)
+- [Push the docker image to Docker Repository](#push-the-docker-image-to-docker-repository)
+- [Download the docker image](#download-the-docker-image)
+
 ## Introduction to Docker
 **Docker** is a software tool to run applications in isolated environments with the help of containers. It is an open source containerization engine, which automates the packaging, shipping and deployment of any software applications that are presented as lightweight, portable and self-sufficient containers, that will run virtually anywhere.
 
