@@ -5,6 +5,7 @@ Table of contents
 - [Introduction to Docker](#introduction-to-docker)
 - [Differences between Virtual Machines and Containers](#differences-between-virtual-machines-and-containers)
 - [What is a Dockerfile?](#what-is-a-dockerfile)
+- [Install Docker service on Ubuntu-16.04](#install-docker-service-on-ubuntu-1604)
 - [Create a docker image 'lamp_pma_tpch'](#create-a-docker-image-lamp_pma_tpch)
 	- [Create a Dockerfile](#create-a-dockerfile)
 	- [Create a folder 'essentials'](#create-a-folder-essentials)
@@ -20,9 +21,7 @@ Table of contents
 - [Create a Docker Repository](#create-a-docker-repository)
 - [Push the docker image to Docker Repository](#push-the-docker-image-to-docker-repository)
 - [Download the docker image](#download-the-docker-image)
-- [Useful docker commands](#useful-docker-commands)
 - [Tips](#tips)
-- [Problems](#problems)
 - [Bibliography](#bibliography)
 ## Introduction to Docker
 **Docker** is a software tool to run applications in isolated environments with the help of containers. It is an open source containerization engine, which automates the packaging, shipping and deployment of any software applications that are presented as lightweight, portable and self-sufficient containers, that will run virtually anywhere.
@@ -73,6 +72,21 @@ RUN | Runs any command during the build time.
 CMD | Runs any command or application, much like RUN. Difference being that the RUN instruction is executed during the build time, whereas the CMD instruction is executed when the container is freshly launched from the image.
 ENTRYPOINT | Helps in running an application during the complete life cycle of the container, which would have spun out of the image. When the entry point application is terminated, the container is also terminated and vice versa.
 ONBUILD | Registers a build instruction to an image and this is triggered when another image is built by using this image as its base image.
+
+## Install Docker service on Ubuntu-16.04
+Update the system. `sudo apt-get -y update`
+
+Get the script from the official page of Docker. `curl -fsSL get.docker.com -o get-docker.sh`
+
+Run the script with sudo if you're not root. `sudo sh get-docker.sh`
+
+If you would like to use Docker as a non-root user, consider adding your user to the "docker" group with something like: `sudo usermod -aG docker apz` (user=apz)
+
+Enable the docker service. `systemctl enable docker.service`
+
+Start the docker service. `systemctl start docker.service`
+
+Check the status of docker. `systemctl status docker.service`
 
 ## Create a docker image 'lamp_pma_tpch'
 There are three main steps to create a docker image '**lamp_pma_tpch**'.
@@ -205,7 +219,7 @@ Run the command in shell. This executes the series of commands in the shell scri
 
 Save the file '**Dockerfile**'. In vim, Press Esc, type *:wq!* and hit Enter.
 
-## Create a folder 'essentials'
+### Create a folder 'essentials'
 The '**essentials**' folder consists of important shell and configuration files.
 
 Create a folder '**essentials**' inside the '**DockerProject**' folder.
@@ -216,7 +230,7 @@ Navigate to '**essentials**' folder
 
 `cd essentials`
 
-### About run.sh
+#### About run.sh
 Create a **run.sh** file with vim, `vim run.sh`
 
 This shell script executes all the shell commands before starting a container.
@@ -367,7 +381,7 @@ Start the apache2 and mysql services. The bash command will help the container t
 
 `service apache2 start && service mysql start && bash`
 
-### About load.sh
+#### About load.sh
 Create a **load.sh** file with vim, `vim load.sh`
 
 The load.sh file is used to indicate the progress of the processes once the container is started in an interactive mode. It is a progress/loading spinning wheel.
@@ -447,7 +461,7 @@ function stop_spinner {
 }
 ```
 
-### About index.php
+#### About index.php
 Create an **index.php** file with vim, `vim index.php`
 
 The code in index.php is for testing the php package once the container is started. We can check with, *localhost/index.php*
@@ -457,7 +471,7 @@ phpinfo();
 ?>
 ```
 
-### About my.cnf
+#### About my.cnf
 Create a **my.cnf** file with vim, `vim my.cnf`
 
 This is a configuration file for mysql application. 
@@ -470,7 +484,7 @@ general_log_file=/dev/stdout
 log_error=/dev/stderr
 ```
 
-### About tpch_test.sql
+#### About tpch_test.sql
 Create a **tpch_test.sql** file with vim, `vim tpch_test.sql`
 
 It consists of a series of SQL commands to create the Databases for the TPC-H schema. The source of the codes is */TPC-H_SQL/dbgen/dss.ddl*. It creates tables in tpch database, populates tables with generated dummy data and alters the schema dependencies.
@@ -638,7 +652,7 @@ ALTER TABLE LINEITEM
 ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references 
         PARTSUPP(PS_PARTKEY, PS_SUPPKEY);
 ```
-## Create a folder 'TPC-H_SQL'
+### Create a folder 'TPC-H_SQL'
 - Go to TPC's Downloads page: http://www.tpc.org/tpc_documents_current_versions/current_specifications.asp
 - Look for the Source code for TPC-H Benchmark, **Download TPC-H_Tools_v2.17.3.zip** (Note: The version might change, so the latest version is preferred)
 - Fill out the details, accept the license agreement and click Download. 
@@ -659,7 +673,7 @@ ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references
 	- line 93: #define SET_ROWCOUNT    **"limit %d;\n\n"**
 	- line 94: #define SET_DBASE       **"use %s;\n"**
 
-## Build the docker image
+### Build the docker image
 Build the docker image with the tag or name **lamp_pma_tpch**. This command should be run by staying in the folder where the Dockerfile is at. In this case, `cd /DockerProject` and now build,
 
 `docker build -t lamp_pma_tpch .`
@@ -741,7 +755,96 @@ In a different OS,
 
 `docker pull apuroopapz/lamp_pma_tpch`
 
-## Useful docker commands
 ## Tips
-## Problems
+#### NOTE: Be aware of the few commands below, when executed you may lose a vast amount of data. These commands WILL delete containers / images.**
+- Very useful commands.
+
+	- List all the images. `docker images -a`
+
+	- List all the containers. `docker ps -a`
+
+	- Show docker disk usage. `docker system df`
+
+	- Get the logs of a container. `docker logs containerID`
+
+	- Show the total information of a container. `docker inspect containerID`
+
+	- Shows history of image. `docker history imageName`
+
+	- Tags an image to a name (local or registry). `docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]`
+
+	- To execute a command in a container. `docker exec`
+
+	- Example:To enter a running container, attach a new shell process to a running container called anyname, `docker exec -it anyname /bin/bash`
+
+	- Remove a stopped container. `docker rm containerID`
+
+	- Remove a running container. `docker rm -f containerID`
+
+	- Remove an image. `docker rmi imageName`
+
+	- Remove an image which is tagged in multiple repositories. `docker rmi -f imageName`
+
+	- To login to a registry. `docker login`
+
+	- To logout from a registry. `docker logout`
+
+	- Search registry for an image. `docker search username/imageName`
+
+	- Pull/Download an image from registry to local machine. `docker pull username/imageName`
+
+	- Push/Upload an image to the registry from local machine. `docker push username/imageName`
+
+- Remove all stopped containers
+
+	- This will remove all stopped containers by getting a list of all the containers with `docker ps -a -q` and passing their ids to docker rm.
+
+	- `docker rm $(docker ps -a -q)`
+- Remove all containers (Running & Stopped)
+
+	- By using the -f, we are force removing the running containers. Stopped containers will also be removed.
+
+	- `docker rm -f $(docker ps -a -q)`
+- Remove all untagged images
+
+	- This will remove all the untagged images by getting a list of all the docker images `docker images -a` and piping it to `grep "^<none>"` which will filter the value <none>. Then to extract the id out of the third column we pipe it to awk '{print $3}' which will print the third column of each line passed to it.
+	
+	- `docker rmi $(docker images -a | grep "^<none>" | awk '{print $3}')`
+- Remove stopped containers and unused images
+
+	- Docker Engine ( > 1.13) now provides the latest command to remove all the containers. 
+
+	- `docker system prune -a`
+- Remove unused volumes
+
+	- When a container is started with a -v flag it will create a volume for the container. If we later remove the container with plain `docker rm container ID` then the volume which was created will not be removed automatically. This will eat up the host directory space pretty quickly. There will a ton of unwanted volumes. To remove these unwanted volumes,
+
+	- `docker volume rm $(docker volume ls -qf dangling=true)`
+- Using --rm at docker run
+
+	- From Docker version that is newer than 1.9, use the following command to run a container. The --rm flag will remove the volumes associated with the container when the container is removed.
+
+	- `docker run -d -t -p 8080:80 --name anyname -v /dir1/dir2:/containerDir1/containerDir2 --rm apuroopapz/lamp_pma_tpch`
+ 
 ## Bibliography
+[Docker Documentation](https://docs.docker.com/)
+
+[Docker Hub](https://hub.docker.com/)
+
+[THE APACHE SOFTWARE FOUNDATION](https://www.apache.org/)
+
+[MySQL](https://www.mysql.com/)
+
+[PHP](http://www.php.net/)
+
+[phpMyAdmin](https://www.phpmyadmin.net/)
+
+[TPC-H Benchmark](http://www.tpc.org/tpch/)
+
+[Jim Hoskin's blog](http://jimhoskins.com/2013/07/27/remove-untagged-docker-images.html)
+
+[Halitsch's blog](https://sites.google.com/site/halitsch88/Implementation-TPC-H-schema-into-MySQL-DBMS)
+
+[Yohan Liyanage](http://blog.yohanliyanage.com/2015/05/docker-clean-up-after-yourself/)
+
+
