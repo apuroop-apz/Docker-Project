@@ -672,7 +672,8 @@ ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references
 	- line 91: #define END_TRAN        **"COMMIT WORK;"**
 	- line 93: #define SET_ROWCOUNT    **"limit %d;\n\n"**
 	- line 94: #define SET_DBASE       **"use %s;\n"**
-
+	- Save the file. Press Esc, type :wq!
+	
 ### Build the docker image
 Build the docker image with the tag or name **lamp_pma_tpch**. This command should be run by staying in the folder where the Dockerfile is at. In this case, `cd /DockerProject` and now build,
 
