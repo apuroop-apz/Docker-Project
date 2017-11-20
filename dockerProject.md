@@ -5,14 +5,15 @@ Table of contents
 - [Introduction to Docker](#introduction-to-docker)
 - [Differences between Virtual Machines and Containers](#differences-between-virtual-machines-and-containers)
 - [What is a Dockerfile?](#what-is-a-dockerfile)
-- [Create a Dockerfile](#create-a-dockerfile)
-- [Create a folder 'essentials'](#create-a-folder-essentials)
-	- [About run.sh](#about-runsh)
-	- [About load.sh](#about-loadsh)
-	- [About index.php](#about-indexphp)
-	- [About my.cnf](#about-mycnf)
-	- [About tpch_test.sql](#about-tpch_testsql)
-- [Build the docker image](#build-the-docker-image)
+- [Create a docker image 'lamp_pma_tpch'](#create-a-docker-image-lamp_pma_tpch)
+	- [Create a Dockerfile](#create-a-dockerfile)
+	- [Create a folder 'essentials'](#create-a-folder-essentials)
+		- [About run.sh](#about-runsh)
+		- [About load.sh](#about-loadsh)
+		- [About index.php](#about-indexphp)
+		- [About my.cnf](#about-mycnf)
+		- [About tpch_test.sql](#about-tpch_testsql)
+	- [Build the docker image](#build-the-docker-image)
 - [Run the docker image](#run-the-docker-image)
 - [Test the docker image](#test-the-docker-image)
 - [Create a Docker Repository](#create-a-docker-repository)
@@ -69,7 +70,8 @@ CMD | Runs any command or application, much like RUN. Difference being that the 
 ENTRYPOINT | Helps in running an application during the complete life cycle of the container, which would have spun out of the image. When the entry point application is terminated, the container is also terminated and vice versa.
 ONBUILD | Registers a build instruction to an image and this is triggered when another image is built by using this image as its base image.
 
-## Create a Dockerfile
+## Create a docker image 'lamp_pma_tpch'
+### Create a Dockerfile
 
 In linux, Open the terminal. Gain the root privileges.
 
