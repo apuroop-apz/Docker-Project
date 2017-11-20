@@ -187,9 +187,9 @@ Navigate to '**essentials**' folder
 
 `cd essentials`
 
+### About run.sh
 Create a **run.sh** file with vim, `vim run.sh`
 
-### About run.sh
 This shell script executes all the shell commands before starting a container.
 
 `#!/bin/bash`
@@ -338,9 +338,9 @@ Start the apache2 and mysql services. The bash command will help the container t
 
 `service apache2 start && service mysql start && bash`
 
-Create a **load.sh** file with vim, `vim load.sh`. This shell script is for progress/loading spinning wheel.
-
 ### About load.sh
+Create a **load.sh** file with vim, `vim load.sh`
+
 The load.sh file is used to indicate the progress of the processes once the container is started in an interactive mode. It is a progress/loading spinning wheel.
 
 ```
@@ -418,8 +418,9 @@ function stop_spinner {
 }
 ```
 
-Create an **index.php** file with vim, `vim index.php`
 ### About index.php
+Create an **index.php** file with vim, `vim index.php`
+
 The code in index.php is for testing the php package once the container is started. We can check with, *localhost/index.php*
 ```
 <?php
@@ -427,8 +428,9 @@ phpinfo();
 ?>
 ```
 
-Create a **my.cnf** file with vim, `vim my.cnf`
 ### About my.cnf
+Create a **my.cnf** file with vim, `vim my.cnf`
+
 This is a configuration file for mysql application. 
 ```
 [mysqld]
@@ -439,8 +441,9 @@ general_log_file=/dev/stdout
 log_error=/dev/stderr
 ```
 
-Create a **tpch_test.sql** file with vim, `vim tpch_test.sql`
 ### About tpch_test.sql
+Create a **tpch_test.sql** file with vim, `vim tpch_test.sql`
+
 It consists of a series of SQL commands to create the Databases for the TPC-H schema. The source of the codes is */TPC-H_SQL/dbgen/dss.ddl*. It creates tables in tpch database, populates tables with generated dummy data and alters the schema dependencies.
 ```
 USE tpch;
