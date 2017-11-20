@@ -616,7 +616,50 @@ Build the docker image with the tag or name **lamp_pma_tpch**. This command shou
 `docker build -t lamp_pma_tpch .`
 
 ## Run the docker image
+Run the docker image '**lamp_pma_tpch**' with -i (--interactive, Keep STDIN open even if not attached) -t (--tty, Allocate a pseudo-TTY) -p (--publish list, Publish a container's port(s) to the host, **-p containerPort:hostPort**)  --name (Assign a name to the container)
+
+`docker run -i -t -p 80:80 --name anyname apuroopapz/lamp_pma_tpch`
+
+Run the docker image '**lamp_pma_tpch**' with -d (--detach, Run container in the background and print container ID) -t (--tty, Allocate a pseudo-TTY) -p (--publish list, Publish a container's port(s) to the host, **-p containerPort:hostPort**)  --name (Assign a name to the container)
+
+`docker run -d -t -p 80:80 --name anyname apuroopapz/lamp_pma_tpch`
+
+Run the docker image with same options above but also set -e (--env list, Set environment variables), here we are assigning a Mysql root password = **anyrootpass**
+
+`docker run -d -t -p 80:80 --name anyname -e MYSQL_ROOT_PASSWORD=anyrootpass apuroopapz/lamp_pma_tpch`
+
+Run the docker image with same options above but also set -e (--env list, Set environment variables), here we are assigning a Mysql username = **anyusername** and password = **anypass**
+
+`docker run -d -t -p 80:80 --name anyname -e MYSQL_USERNAME=anyusername -e MYSQL_PASSWORD=anypass apuroopapz/lamp_pma_tpch`
+
+Run the docker image with same options as above but also set -e (--env list, Set environment variables), here we are assigning a Mysql username = **anyusername** and password = **anypass** and database = **anydbname**
+
+`docker run -d -t -p 80:80 --name anyname -e MYSQL_USERNAME=anyusername -e MYSQL_PASSWORD=anypass -e MYSQL_DBNAME=anydbname apuroopapz/lamp_pma_tpch`
+
+Run the docker image with same options as above but we are assigning a -v option (--volume, mount a volume directory), this creates a volume directory in the container filesystem when the container is started. To be clear, `-v <container mount path>`
+
+`docker run -d -t -p 80:80 --name anyname -v /dir1/dir2/ apuroopapz/lamp_pma_tpch`
+
+Run the docker image with same options as above but we are assigning a -v option (--volume, mount a volume directory), this mounts /hostDir1/hostDir2/ of the host filesystem to the /containerDir1/containerDir2/ of the container filesystem. To be clear, `-v <host path>:<container mount path>`
+
+`docker run -d -t -p 80:80 --name anyname -v /hostDir1/hostDir2/:/containerDir1/containerDir2/ apuroopapz/lamp_pma_tpch`
+
 ## Test the docker image
+- Assuming that you have already installed curl application in your host OS, this will give an output of the phpmyadmin page inside the terminal.
+
+`curl localhost:80/phpmyadmin`
+
+- Open a web browser > In the address bar, type **localhost:80/phpmyadmin** > You will see the phpmyadmin login page.
+
+- Check if the services apache2, Mysql are running inside the container.
+
+`docker exec -i -t anyname /bin/bash`
+
+Inside the container, 
+
+`service apache2 status`
+
+`service mysql status`
 
 ## Create a Docker Repository
 - Go to https://hub.docker.com/
@@ -642,3 +685,7 @@ Type in the username and password for the Docker hub. A push cannot happen witho
 `docker push apuroopapz/lamp_pma_tpch`
 
 ## Download the docker image
+
+In a different OS,
+
+`docker pull apuroopapz/lamp_pma_tpch`
