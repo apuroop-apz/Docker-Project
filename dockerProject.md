@@ -639,6 +639,25 @@ ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references
         PARTSUPP(PS_PARTKEY, PS_SUPPKEY);
 ```
 ## Create a folder 'TPC-H_SQL'
+- Go to TPC's Downloads page: http://www.tpc.org/tpc_documents_current_versions/current_specifications.asp
+- Look for the Source code for TPC-H Benchmark, **Download TPC-H_Tools_v2.17.3.zip** (Note: The version might change, so the latest version is preferred)
+- Fill out the details, accept the license agreement and click Download. 
+- An email will be sent to the email ID that is used earlier with a link including the download key. Select the link or copy and paste it into your web browser to download the software.
+- Unzip the downloaded .zip file to a folder '**TPC-H_SQL**'. Create a folder if it isn't present already. `mkdir TPC-H_SQL`
+- Move the '**TPC-H_SQL**' folder to '**DockerProject**' folder. `mv /Downloads/TPC-H_SQL/ /DockerProject/TPC-H_SQL` (Note: The path to the directories may vary)
+- Navigate to the dbgen/ folder. `cd /DockerProject/TPC-H_SQL/dbgen/`
+- Make a copy of the dummy makefile. `cp makefile.suite makefile`
+- Open the **makefile** to insert the highlighted (bold) values. `vim makefile`
+	- line 103: CC = **cc**
+	- line 109: DATABASE= **SQLSERVER**
+	- line 110: MACHINE = **LINUX**
+	- line 111: WORKLOAD = **TPCH**
+	- Save the file. Press Esc, type :wq!
+- Open the **tpcd.h** to edit the highlighted (bold) values for SQLSERVER. `vim tpcd.h` 
+	- line 90: #define START_TRAN      **"BEGIN WORK;"**
+	- line 91: #define END_TRAN        **"COMMIT WORK;"**
+	- line 93: #define SET_ROWCOUNT    **"limit %d;\n\n"**
+	- line 94: #define SET_DBASE       **"use %s;\n"**
 
 ## Build the docker image
 Build the docker image with the tag or name **lamp_pma_tpch**. This command should be run by staying in the folder where the Dockerfile is at. In this case, `cd /DockerProject` and now build,
