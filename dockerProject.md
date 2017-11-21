@@ -717,6 +717,10 @@ Run the docker image with same options as above but we are assigning a -v option
 
 - Open a web browser > In the address bar, type **localhost:8080/phpmyadmin** > You will see the phpmyadmin login page.
 
+- If you have assigned a username&password at docker run as below then you can login with those credentials at localhost:8080/phpmyadmin which would be username:anyusername and password=anypass. 
+
+`docker run -d -t -p 8080:80 --name anyname -e MYSQL_USERNAME=anyusername -e MYSQL_PASSWORD=anypass apuroopapz/lamp_pma_tpch`
+
 - Check if the services apache2, Mysql are running inside the container.
 
 `docker exec -i -t anyname /bin/bash`
@@ -726,6 +730,27 @@ Inside the container,
 `service apache2 status`
 
 `service mysql status`
+
+Also, you can login with the credentials that we invoked at docker run here,
+
+`mysql -u anyusername -panypass`
+
+In mysql prompt,
+
+To get a list of databases created. `show databases;`
+
+To get a list of MySQL users. `SELECT User FROM mysql.user;`
+
+To get the list of tables created in tpch database with the sizes of it in MB.
+```
+SELECT       table_schema as `Database`,       table_name AS `Table`,       round(((data_length + index_length) / 1024 / 1024), 2) `Size in MB`  FROM information_schema.TABLES where table_schema="tpch"  ORDER BY (data_length + index_length) DESC;
+```
+The query below is from [github/catarinaribeir0/queries-tpch-dbgen-mysql](https://github.com/catarinaribeir0/queries-tpch-dbgen-mysql/blob/master/1.sql). The source of these queries is: **/etc/tpch/TPC-H_SQL/dbgen/queries/** inside the container. The code below is a little modified so that we can get an output without any errors. There are totally 22 sql files with different queries for testing.
+```
+mysql> USE tpch;
+
+mysql> select l_returnflag, l_linestatus, sum(l_quantity) as sum_qty, sum(l_extendedprice) as sum_base_price, sum(l_extendedprice * (1 - l_discount)) as sum_disc_price, sum(l_extendedprice * (1 - l_discount) * (1 + l_tax)) as sum_charge, avg(l_quantity) as avg_qty, avg(l_extendedprice) as avg_price, avg(l_discount) as avg_disc, count(*) as count_order from LINEITEM where l_shipdate <= date '1998-12-01' - interval '108' day group by l_returnflag, l_linestatus order by l_returnflag, l_linestatus;
+```
 
 ## Create a Docker Repository
 - Go to https://hub.docker.com/
