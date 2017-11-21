@@ -48,14 +48,14 @@ Hardware level virtualization | Operating system virtualization
 Heavyweight | Lightweight
 Needs more resources | Needs minimal resources
 Full isolation with guaranteed resources | Isolates processes from each other
-Limit performance | Native performance
+Limited performance | Native performance
 More secure since system-level isolation | Less secure since process-level isolation
 
 ![VM & Containers](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/dock_2.png)
 
 ## What is a Dockerfile?
 
-A **Dockerfile** is a text-based built script that obtains a set of instructions in a pattern such that we can build the image for a particular application from base images. The instructions in the Dockerfile can include the base image selection, setting up environment variables, installing the required application, adding or copying the configuration and the data files, exposing the networking ports and automatically running the services as well as exposing those services to the external world
+A **Dockerfile** is a text-based built script that obtains a set of instructions in a pattern such that we can build the image for a particular application from base images. The instructions in the Dockerfile can include the base image selection, setting up environment variables, installing the required application, adding or copying the configuration and the data files, exposing the networking ports and automatically running the services as well as exposing those services to the external world.
 
 INSTRUCTION | DESCRIPTION
 ----------- | -----------
@@ -91,7 +91,7 @@ Check the status of docker. `systemctl status docker.service`
 ## Create a docker image 'lamp_pma_tpch'
 There are three main steps to create a docker image '**lamp_pma_tpch**'.
 
-Create a Dockerfile > Create a folder 'essentials' > Build the docker image
+Create a Dockerfile > Create a folder '**essentials**' > Build the docker image
 ### Create a Dockerfile
 
 In linux, Open the terminal. Gain the root privileges.
@@ -662,7 +662,7 @@ ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references
 - Navigate to the dbgen/ folder. `cd /DockerProject/TPC-H_SQL/dbgen/`
 - Make a copy of the dummy makefile. `cp makefile.suite makefile`
 - Open the **makefile** to insert the highlighted (bold) values. `vim makefile`
-	- line 103: CC = **cc**
+	- line 103: CC = **gcc**
 	- line 109: DATABASE= **SQLSERVER**
 	- line 110: MACHINE = **LINUX**
 	- line 111: WORKLOAD = **TPCH**
@@ -680,7 +680,7 @@ Build the docker image with the tag or name **lamp_pma_tpch**. This command shou
 `docker build -t lamp_pma_tpch .`
 
 ## Run the docker image
-Following are the various types of docker run usage,
+Following are the several types of docker run usage,
 
 Run the docker image '**lamp_pma_tpch**' with -i (--interactive, Keep STDIN open even if not attached) -t (--tty, Allocate a pseudo-TTY) -p (--publish list, Publish a container's port(s) to the host)  --name (Assign a name to the container). To be clear, `-p containerPort:hostPort`
 
@@ -711,13 +711,13 @@ Run the docker image with same options as above but we are assigning a -v option
 `docker run -d -t -p 8080:80 --name anyname -v /hostDir1/hostDir2/:/containerDir1/containerDir2/ apuroopapz/lamp_pma_tpch`
 
 ## Test the docker image
-- Assuming that you have already installed curl application in your host OS, this will give an output of the phpmyadmin page inside the terminal.
+- If you have already installed curl application in your host OS, this will give an output of the phpmyadmin page inside the terminal.
 
 `curl localhost:8080/phpmyadmin`
 
 - Open a web browser > In the address bar, type **localhost:8080/phpmyadmin** > You will see the phpmyadmin login page.
 
-- If you have assigned a username&password at docker run as below then you can login with those credentials at localhost:8080/phpmyadmin which would be username:anyusername and password=anypass. 
+- If you have assigned a username&password at docker run as below then you can login with those credentials at **localhost:8080/phpmyadmin** which would be username:**anyusername** and password=**anypass**. 
 
 `docker run -d -t -p 8080:80 --name anyname -e MYSQL_USERNAME=anyusername -e MYSQL_PASSWORD=anypass apuroopapz/lamp_pma_tpch`
 
@@ -782,7 +782,7 @@ In a different OS,
 `docker pull apuroopapz/lamp_pma_tpch`
 
 ## Tips
-#### NOTE: Be aware of the few commands below, when executed you may lose a vast amount of data. These commands WILL delete containers / images.**
+#### NOTE: Be aware of the few commands below, when executed you may lose a vast amount of data. These commands WILL delete containers / images.
 - Very useful commands.
 
 	- List all the images. `docker images -a`
@@ -801,7 +801,7 @@ In a different OS,
 
 	- To execute a command in a container. `docker exec`
 
-	- Example:To enter a running container, attach a new shell process to a running container called anyname, `docker exec -it anyname /bin/bash`
+		- Example: To enter a running container, attach a new shell process to a running container called anyname, `docker exec -it anyname /bin/bash`
 
 	- Remove a stopped container. `docker rm containerID`
 
@@ -833,7 +833,7 @@ In a different OS,
 	- `docker rm -f $(docker ps -a -q)`
 - Remove all untagged images
 
-	- This will remove all the untagged images by getting a list of all the docker images `docker images -a` and piping it to `grep "^<none>"` which will filter the value <none>. Then to extract the id out of the third column we pipe it to awk '{print $3}' which will print the third column of each line passed to it.
+	- This will remove all the untagged images by getting a list of all the docker images `docker images -a` and piping it to `grep "^<none>"` which will filter the value `<none>`. Then to extract the id out of the third column we pipe it to `awk '{print $3}'` which will print the third column of each line passed to it.
 	
 	- `docker rmi $(docker images -a | grep "^<none>" | awk '{print $3}')`
 - Remove stopped containers and unused images
