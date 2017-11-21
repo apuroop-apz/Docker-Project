@@ -23,6 +23,7 @@ Table of contents
 - [Download the docker image](#download-the-docker-image)
 - [Tips](#tips)
 - [Bibliography](#bibliography)
+	- [Repository links](#repository-links)
 ## Introduction to Docker
 **Docker** is a software tool to run applications in isolated environments with the help of containers. It is an open source containerization engine, which automates the packaging, shipping and deployment of any software applications that are presented as lightweight, portable and self-sufficient containers, that will run virtually anywhere.
 
@@ -875,4 +876,8 @@ In a different OS,
 
 [Yohan Liyanage](http://blog.yohanliyanage.com/2015/05/docker-clean-up-after-yourself/)
 
+## Repository links
+Github: https://github.com/apuroop-apz/lamp_pma_tpch
+
+Docker: https://hub.docker.com/r/apuroopapz/lamp_pma_tpch/
 
