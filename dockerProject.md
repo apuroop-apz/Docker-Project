@@ -867,6 +867,8 @@ In a different OS,
 
 [TPC-H Benchmark](http://www.tpc.org/tpch/)
 
+[Catarina Ribeiro Github Repo](https://github.com/catarinaribeir0/queries-tpch-dbgen-mysql)
+
 [Jim Hoskin's blog](http://jimhoskins.com/2013/07/27/remove-untagged-docker-images.html)
 
 [Halitsch's blog](https://sites.google.com/site/halitsch88/Implementation-TPC-H-schema-into-MySQL-DBMS)
