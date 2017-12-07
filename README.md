@@ -39,7 +39,7 @@ A **Docker Repository** is a namespace that is used for storing Docker images. S
 
 The following image shows that there are three containers running on a Linux machine and the Docker engine produces, monitors and bears full responsibility.
 
-![Docker](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/dock_1.png)
+![Docker](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/0.1.Intro/dock_1.png)
 
 ## Differences between Virtual Machines and Containers
 
@@ -52,7 +52,7 @@ Full isolation with guaranteed resources | Isolates processes from each other
 Limited performance | Native performance
 More secure since system-level isolation | Less secure since process-level isolation
 
-![VM & Containers](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/dock_2.png)
+![VM & Containers](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/0.1.Intro/dock_2.png)
 
 ## What is a Dockerfile?
 
@@ -76,10 +76,12 @@ ONBUILD | Registers a build instruction to an image and this is triggered when a
 
 ## Install Docker service on Ubuntu-16.04
 Update the system. `sudo apt-get -y update`
+![1-1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/1.Install_Docker_on_Linux/1.png)
 
 Get the script from the official page of Docker. `curl -fsSL get.docker.com -o get-docker.sh`
 
 Run the script with sudo if you're not root. `sudo sh get-docker.sh`
+![1-2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/1.Install_Docker_on_Linux/2.png)
 
 If you would like to use Docker as a non-root user, consider adding your user to the "docker" group with something like: `sudo usermod -aG docker apz` (user=apz)
 
@@ -88,11 +90,12 @@ Enable the docker service. `systemctl enable docker.service`
 Start the docker service. `systemctl start docker.service`
 
 Check the status of docker. `systemctl status docker.service`
+![1-3](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/1.Install_Docker_on_Linux/3.png)
 
 ## Create a docker image 'lamp_pma_tpch'
-There are three main steps to create a docker image '**lamp_pma_tpch**'.
+There are four main steps to create a docker image '**lamp_pma_tpch**'.
 
-Create a Dockerfile > Create a folder '**essentials**' > Build the docker image
+Create a Dockerfile > Create a folder '**essentials**' > Create a folder '**TPC-H_SQL**' > Build the docker image
 ### Create a Dockerfile
 
 In linux, Open the terminal. Gain the root privileges.
@@ -108,6 +111,8 @@ Create a folder '**DockerProject**'
 Create a text file '**Dockerfile**' with vim.
 
 `vim Dockerfile`
+
+![2.1-1.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.1.Create_a_Dockerfile/1.1.png)
 
 #### Give the instructions for creating a LAMP - phpMyadmin - 100MB tpch of test data stack.
 
@@ -220,6 +225,10 @@ Run the command in shell. This executes the series of commands in the shell scri
 
 Save the file '**Dockerfile**'. In vim, Press Esc, type *:wq!* and hit Enter.
 
+![2.1-2.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.1.Create_a_Dockerfile/2.1.png)
+
+![2.1-2.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.1.Create_a_Dockerfile/2.2.png)
+
 ### Create a folder 'essentials'
 The '**essentials**' folder consists of important shell and configuration files.
 
@@ -230,6 +239,8 @@ Create a folder '**essentials**' inside the '**DockerProject**' folder.
 Navigate to '**essentials**' folder
 
 `cd essentials`
+
+![2.2-1.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/1.1.png)
 
 #### About run.sh
 Create a **run.sh** file with vim, `vim run.sh`
@@ -339,7 +350,7 @@ Shut down the Mysql service and repeat the netcat command with -v (Verbose) -z (
 mysqladmin -uroot shutdown
 while  nc -vz localhost 3306; do sleep 1; done
 ```
-This is condition is true when we use `MYSQL_ROOT_PASSWORD` on docker run. Since the root user is already created while installation, the command below will just grant all privileges identified by the root password which is specified.
+This if condition is true when we use `MYSQL_ROOT_PASSWORD` on docker run. Since the root user is already created while installation, the command below will just grant all privileges identified by the root password which is specified.
 ```
 if [ ! -z $ROOTPASS ]; then
 service mysql start
@@ -381,6 +392,12 @@ fi
 Start the apache2 and mysql services. The bash command will help the container to stay up when it is started in -d (detached mode).
 
 `service apache2 start && service mysql start && bash`
+
+![2.2-2.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/2.1.png)
+
+![2.2-2.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/2.2.png)
+
+![2.2-2.3](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/2.3.png)
 
 #### About load.sh
 Create a **load.sh** file with vim, `vim load.sh`
@@ -462,6 +479,10 @@ function stop_spinner {
 }
 ```
 
+![2.2-3.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/3.1.png)
+
+![2.2-3.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/3.2.png)
+
 #### About index.php
 Create an **index.php** file with vim, `vim index.php`
 
@@ -471,6 +492,8 @@ The code in index.php is for testing the php package once the container is start
 phpinfo();
 ?>
 ```
+
+![2.2-4.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/4.1.png)
 
 #### About my.cnf
 Create a **my.cnf** file with vim, `vim my.cnf`
@@ -484,6 +507,8 @@ general_log=1
 general_log_file=/dev/stdout
 log_error=/dev/stderr
 ```
+
+![2.2-5.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/5.1.png)
 
 #### About tpch_test.sql
 Create a **tpch_test.sql** file with vim, `vim tpch_test.sql`
@@ -653,32 +678,92 @@ ALTER TABLE LINEITEM
 ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references 
         PARTSUPP(PS_PARTKEY, PS_SUPPKEY);
 ```
+
+![2.2-6.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/6.1.png)
+
+![2.2-6.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/6.2.png)
+
+![2.2-6.3](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/6.3.png)
+
+![2.2-6.4](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.2.Create_a_folder_essentials/6.4.png)
+
 ### Create a folder 'TPC-H_SQL'
 - Go to TPC's Downloads page: http://www.tpc.org/tpc_documents_current_versions/current_specifications.asp
-- Look for the Source code for TPC-H Benchmark, **Download TPC-H_Tools_v2.17.3.zip** (Note: The version might change, so the latest version is preferred)
+- Look for the Source URL for TPC-H Benchmark, **Download TPC-H_Tools_v2.17.3.zip** (Note: The version might change, so the latest version is preferred)
+
+![2.3-1.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/1.1.png)
+
 - Fill out the details, accept the license agreement and click Download. 
+
+![2.3-2.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/2.1.png)
+
 - An email will be sent to the email ID that is used earlier with a link including the download key. Select the link or copy and paste it into your web browser to download the software.
-- Unzip the downloaded .zip file to a folder '**TPC-H_SQL**'. Create a folder if it isn't present already. `mkdir TPC-H_SQL`
-- Move the '**TPC-H_SQL**' folder to '**DockerProject**' folder. `mv /Downloads/TPC-H_SQL/ /DockerProject/TPC-H_SQL` (Note: The path to the directories may vary)
+
+![2.3-3.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/3.1.png)
+
+- Open with the Archive Manager.
+
+![2.3-4.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/4.1.png)
+
+- Extract the file in the Downloads folder.
+
+![2.3-5.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/5.1.png)
+
+- Move the downloaded folder to '**DockerProject**' folder with a new name ‘TPC-H_SQL’. `mv /home/apz/Downloads/2.17.3/ /DockerProject/TPC-H_SQL` (Note: The path to the directories may vary)
+
+![2.3-6.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/6.1.png)
+
 - Navigate to the dbgen/ folder. `cd /DockerProject/TPC-H_SQL/dbgen/`
 - Make a copy of the dummy makefile. `cp makefile.suite makefile`
+
+![2.3-7.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/7.1.png)
+
 - Open the **makefile** to insert the highlighted (bold) values. `vim makefile`
 	- line 103: CC = **gcc**
 	- line 109: DATABASE= **SQLSERVER**
 	- line 110: MACHINE = **LINUX**
 	- line 111: WORKLOAD = **TPCH**
 	- Save the file. Press Esc, type :wq!
+
+![2.3-7.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/7.2.png)
+
 - Open the **tpcd.h** to edit the highlighted (bold) values for SQLSERVER. `vim tpcd.h` 
 	- line 90: #define START_TRAN      **"BEGIN WORK;"**
 	- line 91: #define END_TRAN        **"COMMIT WORK;"**
 	- line 93: #define SET_ROWCOUNT    **"limit %d;\n\n"**
 	- line 94: #define SET_DBASE       **"use %s;\n"**
 	- Save the file. Press Esc, type :wq!
-	
+
+![2.3-8.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/8.1.png)
+
 ### Build the docker image
 Build the docker image with the tag or name **lamp_pma_tpch**. This command should be run by staying in the folder where the Dockerfile is at. In this case, `cd /DockerProject` and now build,
 
 `docker build -t lamp_pma_tpch .`
+
+![2.3-9.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/9.1.png)
+
+![2.3-9.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/9.2.png)
+
+![2.3-9.3](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/9.3.png)
+
+![2.3-9.4](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/9.4.png)
+
+![2.3-9.5](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/9.5.png)
+
+![2.3-9.6](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/9.6.png)
+
+![2.3-9.7](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/9.7.png)
+
+List the docker images. `docker images`
+
+![2.3-10.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/10.1.png)
+
+In the terminal, we must change the name of the image. This is mandatory because we have to push the image to the Docker Repository later. It should be `username/imagename`
+
+`docker tag lamp_pma_tpch apuroopapz/lamp_pma_tpch`
+
+![2.3-11.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/2.3.Create_a_folder_TPC-H_SQL/11.1.png)
 
 ## Run the docker image
 Following are the several types of docker run usage,
@@ -686,6 +771,10 @@ Following are the several types of docker run usage,
 Run the docker image '**lamp_pma_tpch**' with -i (--interactive, Keep STDIN open even if not attached) -t (--tty, Allocate a pseudo-TTY) -p (--publish list, Publish a container's port(s) to the host)  --name (Assign a name to the container). To be clear, `-p containerPort:hostPort`
 
 `docker run -i -t -p 8080:80 --name anyname apuroopapz/lamp_pma_tpch`
+
+![3-1.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/3.Run_the_Docker_image/1.1.png)
+
+![3-1.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/3.Run_the_Docker_image/1.2.png)
 
 Run the docker image '**lamp_pma_tpch**' with -d (--detach, Run container in the background and print container ID) -t (--tty, Allocate a pseudo-TTY) -p (--publish list, Publish a container's port(s) to the host)  --name (Assign a name to the container).
 
@@ -695,6 +784,10 @@ Run the docker image with same options above but also set -e (--env list, Set en
 
 `docker run -d -t -p 8080:80 --name anyname -e MYSQL_ROOT_PASSWORD=anyrootpass apuroopapz/lamp_pma_tpch`
 
+![3-2.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/3.Run_the_Docker_image/2.1.png)
+
+![3-2.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/3.Run_the_Docker_image/2.2.png)
+
 Run the docker image with same options above but also set -e (--env list, Set environment variables), here we are assigning a Mysql username = **anyusername** and password = **anypass**
 
 `docker run -d -t -p 8080:80 --name anyname -e MYSQL_USERNAME=anyusername -e MYSQL_PASSWORD=anypass apuroopapz/lamp_pma_tpch`
@@ -703,24 +796,34 @@ Run the docker image with same options as above but also set -e (--env list, Set
 
 `docker run -d -t -p 8080:80 --name anyname -e MYSQL_USERNAME=anyusername -e MYSQL_PASSWORD=anypass -e MYSQL_DBNAME=anydbname apuroopapz/lamp_pma_tpch`
 
+![3-3.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/3.Run_the_Docker_image/3.1.png)
+
+![3-3.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/3.Run_the_Docker_image/3.2.png)
+
 Run the docker image with same options as above but we are assigning a -v option (--volume, mount a volume directory), this creates a volume directory in the container filesystem when the container is started. To be clear, `-v <container mount path>`
 
 `docker run -d -t -p 8080:80 --name anyname -v /dir1/dir2/ apuroopapz/lamp_pma_tpch`
+
+![3-4.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/3.Run_the_Docker_image/4.1.png)
 
 Run the docker image with same options as above but we are assigning a -v option (--volume, mount a volume directory), this mounts /hostDir1/hostDir2/ of the host filesystem to the /containerDir1/containerDir2/ of the container filesystem. To be clear, `-v <host path>:<container mount path>`
 
 `docker run -d -t -p 8080:80 --name anyname -v /hostDir1/hostDir2/:/containerDir1/containerDir2/ apuroopapz/lamp_pma_tpch`
 
+![3-5.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/3.Run_the_Docker_image/5.1.png)
+
 ## Test the docker image
-- If you have already installed curl application in your host OS, this will give an output of the phpmyadmin page inside the terminal.
+- If you have already installed curl application in your host OS, this will give an output of the official apache and phpmyadmin page inside the terminal.
 
-`curl localhost:8080/phpmyadmin`
+- Open a web browser > In the address bar, type localhost:8080
+	In the terminal, `curl localhost:8080`
 
-- Open a web browser > In the address bar, type **localhost:8080/phpmyadmin** > You will see the phpmyadmin login page.
+![4-1.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/1.1.png)
 
-- If you have assigned a username&password at docker run as below then you can login with those credentials at **localhost:8080/phpmyadmin** which would be username:**anyusername** and password=**anypass**. 
+- Open a web browser > In the address bar, type localhost:8080/phpmyadmin/
+	In the terminal, curl http://localhost:8080/phpmyadmin/
 
-`docker run -d -t -p 8080:80 --name anyname -e MYSQL_USERNAME=anyusername -e MYSQL_PASSWORD=anypass apuroopapz/lamp_pma_tpch`
+![4-2.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/2.1.png)
 
 - Check if the services apache2, Mysql are running inside the container.
 
@@ -738,43 +841,76 @@ Also, you can login with the credentials that we invoked at docker run here,
 
 In mysql prompt,
 
+To get a list of MySQL users. `SELECT User FROM mysql.user;`
+
 To get a list of databases created. `show databases;`
 
-To get a list of MySQL users. `SELECT User FROM mysql.user;`
+![4-3.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/3.1.png)
 
 To get the list of tables created in tpch database with the sizes of it in MB.
 ```
 SELECT       table_schema as `Database`,       table_name AS `Table`,       round(((data_length + index_length) / 1024 / 1024), 2) `Size in MB`  FROM information_schema.TABLES where table_schema="tpch"  ORDER BY (data_length + index_length) DESC;
 ```
-The query below is from [github/catarinaribeir0/queries-tpch-dbgen-mysql](https://github.com/catarinaribeir0/queries-tpch-dbgen-mysql/blob/master/1.sql). The source of these queries is: **/etc/tpch/TPC-H_SQL/dbgen/queries/** inside the container. The code below is a little modified so that we can get an output without any errors. There are totally 22 sql files with different queries for testing.
+
+![4-4.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/4.1.png)
+
+The query below is from [github/catarinaribeir0/queries-tpch-dbgen-mysql](https://github.com/catarinaribeir0/queries-tpch-dbgen-mysql/blob/master/1.sql). The source of these queries is: **/TPC-H_SQL/dbgen/queries/** inside the container. The code below is a little modified so that we can get an output without any errors. There are totally 22 sql files with different queries for testing.
 ```
 mysql> USE tpch;
 
 mysql> select l_returnflag, l_linestatus, sum(l_quantity) as sum_qty, sum(l_extendedprice) as sum_base_price, sum(l_extendedprice * (1 - l_discount)) as sum_disc_price, sum(l_extendedprice * (1 - l_discount) * (1 + l_tax)) as sum_charge, avg(l_quantity) as avg_qty, avg(l_extendedprice) as avg_price, avg(l_discount) as avg_disc, count(*) as count_order from LINEITEM where l_shipdate <= date '1998-12-01' - interval '108' day group by l_returnflag, l_linestatus order by l_returnflag, l_linestatus;
 ```
 
+![4-5.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/5.1.png)
+
+- Open a web browser > In the address bar, type **localhost:8080/phpmyadmin** > You will see the phpmyadmin login page. If you have assigned a username&password at docker run as below then you can login with those credentials which would be username:**anyusername** and password=**anypass**. 
+
+`docker run -d -t -p 8080:80 --name anyname -e MYSQL_USERNAME=anyusername -e MYSQL_PASSWORD=anypass apuroopapz/lamp_pma_tpch`
+
+![4-6.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/6.1.png)
+
+![4-6.2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/6.2.png)
+
+![4-6.3](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/6.3.png)
+
+![4-6.4](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/6.4.png)
+
 ## Create a Docker Repository
 - Go to https://hub.docker.com/
 - Sign in
+
+![5-1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/5.Create_a_Docker_repository/1.png)
+
 - If your Github account is not linked with Docker hub then go to **Settings**
 - Click **Linked Accounts & Services**
 - Link your Github account
+
+![5-2](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/5.Create_a_Docker_repository/2.png)
+
+![5-3](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/5.Create_a_Docker_repository/3.png)
+
 - Back to the home page, on the top right, click **Create**
 - Select **Automated Build**
 - Select **Create Auto-Build Github**
+
+![5-4](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/5.Create_a_Docker_repository/4.png)
+
 - Choose your repository from Github. You must create a repository if you don't have one already.
 - The name of the repository can be edited and click **Create**
 
-## Push the docker image to Docker Repository
-In the terminal, we have to change the docker image's name. This has to match the Docker Repository that we created earlier. It should be `username/imagename` 
+![5-5](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/5.Create_a_Docker_repository/5.png)
 
-`docker tag lamp_pma_tpch apuroopapz/lamp_pma_tpch`
+## Push the docker image to Docker Repository
+
+Login in with your Docker hub username and password.
 
 `docker login`
 
 Type in the username and password for the Docker hub. A push cannot happen without logging in.
 
 `docker push apuroopapz/lamp_pma_tpch`
+
+![5-6](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/5.Create_a_Docker_repository/6.png)
 
 ## Download the docker image
 
