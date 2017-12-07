@@ -1,4 +1,4 @@
-# Project on Docker
+# Building an Environment for Reproducible Computational Experiments in the Docker Container
 Table of contents
 =================
 
