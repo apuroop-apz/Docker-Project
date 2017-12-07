@@ -917,7 +917,7 @@ In a different OS,
 `docker pull apuroopapz/lamp_pma_tpch`
 
 ## Tips
-#### NOTE: Be aware of the few commands below, when executed you may lose a vast amount of data. These commands WILL delete containers / images.
+#### NOTE: Be aware of the few commands below, when executed you may lose a vast amount of data. Few following commands WILL delete containers / images.
 - Very useful commands.
 
 	- List all the images. `docker images -a`
