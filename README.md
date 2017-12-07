@@ -85,11 +85,11 @@ Run the script with sudo if you're not root. `sudo sh get-docker.sh`
 
 If you would like to use Docker as a non-root user, consider adding your user to the "docker" group with something like: `sudo usermod -aG docker apz` (user=apz)
 
-Enable the docker service. `systemctl enable docker.service`
+Enable the docker service. `sudo systemctl enable docker.service`
 
-Start the docker service. `systemctl start docker.service`
+Start the docker service. `sudo systemctl start docker.service`
 
-Check the status of docker. `systemctl status docker.service`
+Check the status of docker. `sudo systemctl status docker.service`
 ![1-3](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/1.Install_Docker_on_Linux/3.png)
 
 ## Create a docker image 'lamp_pma_tpch'
