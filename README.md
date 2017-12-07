@@ -815,13 +815,11 @@ Run the docker image with same options as above but we are assigning a -v option
 ## Test the docker image
 - If you have already installed curl application in your host OS, this will give an output of the official apache and phpmyadmin page inside the terminal.
 
-- Open a web browser > In the address bar, type localhost:8080
-	In the terminal, `curl localhost:8080`
+- Open a web browser > In the address bar, type localhost:8080 and in the terminal, `curl localhost:8080`
 
 ![4-1.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/1.1.png)
 
-- Open a web browser > In the address bar, type localhost:8080/phpmyadmin/
-	In the terminal, curl http://localhost:8080/phpmyadmin/
+- Open a web browser > In the address bar, type localhost:8080/phpmyadmin/ and in the terminal, `curl http://localhost:8080/phpmyadmin/`
 
 ![4-2.1](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/4.Test_the_Docker_image/2.1.png)
 
@@ -841,7 +839,7 @@ Also, you can login with the credentials that we invoked at docker run here,
 
 In mysql prompt,
 
-To get a list of MySQL users. `SELECT User FROM mysql.user;`
+To get a list of MySQL users. `SELECT user FROM mysql.user;`
 
 To get a list of databases created. `show databases;`
 
@@ -890,7 +888,7 @@ mysql> select l_returnflag, l_linestatus, sum(l_quantity) as sum_qty, sum(l_exte
 ![5-3](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/5.Create_a_Docker_repository/3.png)
 
 - Back to the home page, on the top right, click **Create**
-- Select **Automated Build**
+- Select **Create Automated Build**
 - Select **Create Auto-Build Github**
 
 ![5-4](https://github.com/apuroop-apz/Docker-Project/blob/master/figures/5.Create_a_Docker_repository/4.png)
