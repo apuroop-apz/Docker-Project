@@ -691,7 +691,7 @@ In the terminal, we must change the name of the image. This is mandatory because
 ## Run the docker image
 Following are the several types of docker run usage,
 
-Run the docker image '**lamp_pma_tpch**' with -i (--interactive, Keep STDIN open even if not attached) -t (--tty, Allocate a pseudo-TTY) -p (--publish list, Publish a container's port(s) to the host)  --name (Assign a name to the container). To be clear, `-p containerPort:hostPort`
+Run the docker image '**lamp_pma_tpch**' with -i (--interactive, Keep STDIN open even if not attached) -t (--tty, Allocate a pseudo-TTY) -p (--publish list, Publish a container's port(s) to the host)  --name (Assign a name to the container). To be clear, `-p hostPort:containerPort`
 
 `docker run -i -t -p 8080:80 --name anyname apuroopapz/lamp_pma_tpch`
 
